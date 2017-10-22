@@ -8,8 +8,8 @@
 
 #include "main.h"
 #include <assert.h>
-#include "multithread_server.h"
-#import "utils.h"
+#include "utils.h"
+#include "server.h"
 
 PAPP_ARGUMENTS getProgramArguments(char **arguments) {
 
@@ -28,7 +28,7 @@ VOID displayUsage() {
   fprintf(stdout, "%-20s\n", "server 8080 1");
 }
 
-VOID start_server(VOID (*server_handler)(PAPP_ARGUMENTS, struct addrinfo, struct addrinfo *), PAPP_ARGUMENTS arguments) {
+VOID start_server(VOID (*server_handler)(struct addrinfo, struct addrinfo *), PAPP_ARGUMENTS arguments) {
 
   struct addrinfo hints, *serverInfo;
   int ret;
@@ -45,7 +45,7 @@ VOID start_server(VOID (*server_handler)(PAPP_ARGUMENTS, struct addrinfo, struct
   ret = getaddrinfo(NULL, arguments->port, &hints, &serverInfo);
 
   check_errors(ret);
-  server_handler(arguments, hints, serverInfo);
+  server_handler(hints, serverInfo);
 };
 
 int main(int argc, char * argv[]) {
@@ -64,10 +64,13 @@ int main(int argc, char * argv[]) {
 
   switch (arguments->serverType) {
     case 1:
+      printf("Started a multithread server\n");
       start_server(multithread_server, arguments);
       break;
 
     case 2:
+      printf("Started a polling server\n");
+      start_server(polling_server, arguments);
       break;
 
     default:

@@ -53,7 +53,6 @@ int main(int argc, char * argv[]) {
 
     displayUsage();
     return 0;
-
   } else {
 
     arguments = getProgramArguments(argv);
@@ -143,7 +142,7 @@ int main(int argc, char * argv[]) {
   ssize_t rxBytes, cxBytes, rxTotal = 0;
 
   cxBytes = send(cxSocket, httpRequest, httpRequestSize, 0);
-  printf("REQUEST\n%s\n%lu bytes sended.\n\n", httpRequest, cxBytes);
+  printf("REQUEST\n%s\n%lu bytes sent.\n\n", httpRequest, cxBytes);
 
 
 

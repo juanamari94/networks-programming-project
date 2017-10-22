@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		95286A6E1F65FAD600A28F95 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 95286A6D1F65FAD600A28F95 /* main.c */; };
+		9549E5B01F9D466F00A2DA60 /* request_handlers.c in Sources */ = {isa = PBXBuildFile; fileRef = 9549E5AF1F9D466E00A2DA60 /* request_handlers.c */; };
+		9549E5B31F9D473800A2DA60 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 9549E5B21F9D473800A2DA60 /* utils.c */; };
+		9549E5B61F9D569A00A2DA60 /* server.c in Sources */ = {isa = PBXBuildFile; fileRef = 9549E5B51F9D569A00A2DA60 /* server.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +29,12 @@
 		95286A6A1F65FAD600A28F95 /* Server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Server; sourceTree = BUILT_PRODUCTS_DIR; };
 		95286A6D1F65FAD600A28F95 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		95286A891F67135A00A28F95 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		9549E5AE1F9D466E00A2DA60 /* request_handlers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = request_handlers.h; sourceTree = "<group>"; };
+		9549E5AF1F9D466E00A2DA60 /* request_handlers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = request_handlers.c; sourceTree = "<group>"; };
+		9549E5B11F9D473800A2DA60 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		9549E5B21F9D473800A2DA60 /* utils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
+		9549E5B41F9D569A00A2DA60 /* server.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = server.h; sourceTree = "<group>"; };
+		9549E5B51F9D569A00A2DA60 /* server.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = server.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +69,12 @@
 			children = (
 				95286A6D1F65FAD600A28F95 /* main.c */,
 				95286A891F67135A00A28F95 /* main.h */,
+				9549E5B41F9D569A00A2DA60 /* server.h */,
+				9549E5B51F9D569A00A2DA60 /* server.c */,
+				9549E5AE1F9D466E00A2DA60 /* request_handlers.h */,
+				9549E5AF1F9D466E00A2DA60 /* request_handlers.c */,
+				9549E5B11F9D473800A2DA60 /* utils.h */,
+				9549E5B21F9D473800A2DA60 /* utils.c */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -90,7 +105,7 @@
 		95286A621F65FAD600A28F95 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Juan Amari";
 				TargetAttributes = {
 					95286A691F65FAD600A28F95 = {
@@ -121,6 +136,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9549E5B31F9D473800A2DA60 /* utils.c in Sources */,
+				9549E5B01F9D466F00A2DA60 /* request_handlers.c in Sources */,
+				9549E5B61F9D569A00A2DA60 /* server.c in Sources */,
 				95286A6E1F65FAD600A28F95 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,7 +156,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -146,7 +166,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -186,7 +210,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -194,7 +220,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -250,6 +280,7 @@
 				95286A731F65FAD600A28F95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
