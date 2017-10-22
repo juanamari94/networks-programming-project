@@ -64,6 +64,7 @@ typedef char				**PPCHAR;
 typedef struct _appArguments {
 
   PCHAR port;
+  int serverType;
 
 } APP_ARGUMENTS, *PAPP_ARGUMENTS;
 
