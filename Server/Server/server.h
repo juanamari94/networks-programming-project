@@ -7,6 +7,7 @@
 //
 
 #include "main.h"
+#include <sys/select.h>
 #include "request_handlers.h"
 
 #ifndef server_h

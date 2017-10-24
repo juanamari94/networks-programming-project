@@ -11,11 +11,15 @@
 #define BACKLOG 10
 
 void multithread_server(struct addrinfo hints, struct addrinfo *serverInfo) {
-  int ret, sockfd, new_fd;
+  int ret, sockfd;
   struct sockaddr_storage their_addr;
   socklen_t addr_size;
 
   sockfd = socket(serverInfo->ai_family, serverInfo->ai_socktype, serverInfo->ai_protocol);
+
+  int reuse = 1;
+  if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(reuse)) < 0)
+    perror("setsockopt(SO_REUSEADDR) failed");
 
   ret = bind(sockfd, serverInfo->ai_addr, serverInfo->ai_addrlen);
 
@@ -23,8 +27,9 @@ void multithread_server(struct addrinfo hints, struct addrinfo *serverInfo) {
 
   free(serverInfo);
   while(TRUE) {
-    new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
-    printf("Accepted new connection\n");
+
+    int new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
+    printf("Accepted new connection: %p\n", &new_fd);
 
     pthread_t      worker;
     pthread_attr_t workerAttrs;
@@ -54,11 +59,12 @@ void polling_server(struct addrinfo hints, struct addrinfo *serverInfo) {
   getsockopt(socketListen, SOL_SOCKET, SO_SNDBUF, &bufferSize, &bufferSizeLenght);
   printf("send buffer size: %u\n", bufferSize);
 
-  getsockopt(socketListen, SOL_SOCKET, SO_REUSEADDR, &bufferSize, &bufferSizeLenght);
-  printf("reuseaddr: %u\n", bufferSize);
+  int reuse = 1;
+  if (setsockopt(socketListen, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(reuse)) < 0)
+    perror("setsockopt(SO_REUSEADDR) failed");
 
   bind(socketListen, serverInfo->ai_addr, serverInfo->ai_addrlen);
-  listen(socketListen, 20);
+  listen(socketListen, BACKLOG);
 
   struct timeval tv;
 
