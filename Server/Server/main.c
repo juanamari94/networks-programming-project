@@ -11,6 +11,8 @@
 #include "utils.h"
 #include "server.h"
 
+typedef VOID SERVER_HANDLER_FUNC(struct addrinfo, struct addrinfo *);
+
 PAPP_ARGUMENTS getProgramArguments(char **arguments) {
 
   PAPP_ARGUMENTS pArguments = malloc(sizeof(APP_ARGUMENTS));
@@ -23,12 +25,12 @@ PAPP_ARGUMENTS getProgramArguments(char **arguments) {
 VOID displayUsage() {
 
   fprintf(stdout, "Usage: server [port] [server type]\n");
-  fprintf(stdout, "server type must be 1 or 2\n");
+  fprintf(stdout, "server type must be 1, 2 or 3\n");
   fprintf(stdout, "EXAMPLES:\n");
   fprintf(stdout, "%-20s\n", "server 8080 1");
 }
 
-VOID start_server(VOID (*server_handler)(struct addrinfo, struct addrinfo *), PAPP_ARGUMENTS arguments) {
+VOID start_server(SERVER_HANDLER_FUNC server_handler, PAPP_ARGUMENTS arguments) {
 
   struct addrinfo hints, *serverInfo;
   int ret;
@@ -72,6 +74,10 @@ int main(int argc, char * argv[]) {
       printf("Started a polling server\n");
       start_server(polling_server, arguments);
       break;
+
+    case 3:
+      printf("Started a threadpool server\n");
+      start_server(threadpool_server, arguments);
 
     default:
       displayUsage();

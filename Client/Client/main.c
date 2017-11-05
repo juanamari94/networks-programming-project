@@ -129,12 +129,11 @@ int main(int argc, char * argv[]) {
   //
   // prepare http request
   //
-  PCHAR httpHeader    = "GET /index.js HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n";
+  PCHAR httpHeader    = "GET /index.html HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n";
   ULONG httpRequestSize = strlen(httpHeader) + strlen(arguments->address);
   PCHAR httpRequest   = malloc(httpRequestSize);
   memset(httpRequest, 0, httpRequestSize);
   sprintf(httpRequest, httpHeader, arguments->address);
-
 
   //
   // send request
@@ -143,8 +142,6 @@ int main(int argc, char * argv[]) {
 
   cxBytes = send(cxSocket, httpRequest, httpRequestSize, 0);
   printf("REQUEST\n%s\n%lu bytes sent.\n\n", httpRequest, cxBytes);
-
-
 
   //
   // receive response
@@ -159,7 +156,7 @@ int main(int argc, char * argv[]) {
 
     rxBytes = recv(cxSocket, chunk, CHUNK_SIZE, 0);
 
-    if(rxBytes == -1) {
+    if (rxBytes == -1) {
 
       printf("recv error: ");
       perror("client: connect");
@@ -180,10 +177,7 @@ int main(int argc, char * argv[]) {
 
   } while(TRUE);
 
-
   printf("bytes: %lu\n", rxTotal);
-
-
 
   // dealloc memory and finish
   close(cxSocket);

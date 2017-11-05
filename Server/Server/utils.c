@@ -7,6 +7,11 @@
 //
 
 #include "utils.h"
+#include <math.h>
+
+ULONG get_long_size(ULONG number) {
+  return (ULONG) floor(log10(number)) + 1;
+}
 
 VOID check_errors(int ret) {
   if(ret != 0) {

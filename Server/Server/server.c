@@ -9,8 +9,38 @@
 #include "server.h"
 
 #define BACKLOG 10
+#define CHUNK_SIZE 1024
+
+PCHAR handle_req_recv(INT cx_socket, INT flags) {
+
+  PCHAR chunk = NULL;
+
+  chunk = malloc(CHUNK_SIZE);
+  memset(chunk, 0, CHUNK_SIZE);
+
+  ssize_t rxBytes = 0;
+
+  rxBytes = recv(cx_socket, chunk, CHUNK_SIZE, 0);
+
+  if (rxBytes == -1) {
+
+    printf("recv error: ");
+    perror("client: connect");
+  }
+
+  if(rxBytes == 0) {
+
+    printf("\nConnection closed by peer. \n");
+  }
+
+  printf("%s", chunk);
+  printf("\n\n-------------------------\n");
+
+  return chunk;
+}
 
 void multithread_server(struct addrinfo hints, struct addrinfo *serverInfo) {
+
   int ret, sockfd;
   struct sockaddr_storage their_addr;
   socklen_t addr_size;
@@ -30,6 +60,7 @@ void multithread_server(struct addrinfo hints, struct addrinfo *serverInfo) {
 
     int new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
     printf("Accepted new connection: %p\n", &new_fd);
+    handle_req_recv(new_fd, 0);
 
     pthread_t      worker;
     pthread_attr_t workerAttrs;
@@ -37,11 +68,41 @@ void multithread_server(struct addrinfo hints, struct addrinfo *serverInfo) {
     pthread_attr_init(&workerAttrs);
     pthread_attr_setdetachstate(&workerAttrs, PTHREAD_CREATE_DETACHED);
     pthread_attr_setschedpolicy(&workerAttrs, SCHED_FIFO);
-    pthread_create(&worker, &workerAttrs, handleRequestWithRandomResponse, &new_fd);
+    pthread_create(&worker, &workerAttrs, (PVOID) handleRequestWithRandomResponse, &new_fd);
+  }
+}
+
+void threadpool_server(struct addrinfo hints, struct addrinfo *serverInfo) {
+
+  int ret, sockfd;
+  struct sockaddr_storage their_addr;
+  socklen_t addr_size;
+
+  sockfd = socket(serverInfo->ai_family, serverInfo->ai_socktype, serverInfo->ai_protocol);
+
+  int reuse = 1;
+  if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(reuse)) < 0)
+    perror("setsockopt(SO_REUSEADDR) failed");
+
+  ret = bind(sockfd, serverInfo->ai_addr, serverInfo->ai_addrlen);
+
+  ret = listen(sockfd, BACKLOG);
+
+  free(serverInfo);
+  threadpool_t *pool = threadpool_create(10, 20, 0);
+
+  while(TRUE) {
+
+    int new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
+    printf("Accepted new connection: %d\n", new_fd);
+    handle_req_recv(new_fd, 0);
+
+    threadpool_add(pool, handleRequestWithRandomResponse, &new_fd, 0);
   }
 }
 
 void polling_server(struct addrinfo hints, struct addrinfo *serverInfo) {
+
   int socketListen = socket(serverInfo->ai_family,
                             serverInfo->ai_socktype,
                             serverInfo->ai_protocol);
@@ -113,6 +174,7 @@ void polling_server(struct addrinfo hints, struct addrinfo *serverInfo) {
           socklen_t sockaddClientLength;
 
           int socketNewCx = accept(socketListen, &sockaddClient, &sockaddClientLength);
+          handle_req_recv(socketNewCx, 0);
           handleRequestWithRandomResponse((void *) &socketNewCx);
         }
       } else {

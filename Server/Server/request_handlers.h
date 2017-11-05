@@ -11,7 +11,7 @@
 
 #include "main.h"
 
-PVOID handleRequestWithRandomResponse(void *sfd);
+VOID handleRequestWithRandomResponse(void *sfd);
 
 #include <stdio.h>
 

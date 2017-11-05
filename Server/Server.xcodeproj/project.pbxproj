@@ -11,6 +11,7 @@
 		9549E5B01F9D466F00A2DA60 /* request_handlers.c in Sources */ = {isa = PBXBuildFile; fileRef = 9549E5AF1F9D466E00A2DA60 /* request_handlers.c */; };
 		9549E5B31F9D473800A2DA60 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 9549E5B21F9D473800A2DA60 /* utils.c */; };
 		9549E5B61F9D569A00A2DA60 /* server.c in Sources */ = {isa = PBXBuildFile; fileRef = 9549E5B51F9D569A00A2DA60 /* server.c */; };
+		955465A11FAF614F00C3CDC8 /* threadpool.c in Sources */ = {isa = PBXBuildFile; fileRef = 955465A01FAF614F00C3CDC8 /* threadpool.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +36,8 @@
 		9549E5B21F9D473800A2DA60 /* utils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
 		9549E5B41F9D569A00A2DA60 /* server.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = server.h; sourceTree = "<group>"; };
 		9549E5B51F9D569A00A2DA60 /* server.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = server.c; sourceTree = "<group>"; };
+		9554659F1FAF614E00C3CDC8 /* threadpool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threadpool.h; sourceTree = "<group>"; };
+		955465A01FAF614F00C3CDC8 /* threadpool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = threadpool.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,8 @@
 		95286A6C1F65FAD600A28F95 /* Server */ = {
 			isa = PBXGroup;
 			children = (
+				955465A01FAF614F00C3CDC8 /* threadpool.c */,
+				9554659F1FAF614E00C3CDC8 /* threadpool.h */,
 				95286A6D1F65FAD600A28F95 /* main.c */,
 				95286A891F67135A00A28F95 /* main.h */,
 				9549E5B41F9D569A00A2DA60 /* server.h */,
@@ -136,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				955465A11FAF614F00C3CDC8 /* threadpool.c in Sources */,
 				9549E5B31F9D473800A2DA60 /* utils.c in Sources */,
 				9549E5B01F9D466F00A2DA60 /* request_handlers.c in Sources */,
 				9549E5B61F9D569A00A2DA60 /* server.c in Sources */,
