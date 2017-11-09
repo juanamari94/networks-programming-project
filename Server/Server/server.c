@@ -11,6 +11,8 @@
 #define BACKLOG 10
 #define CHUNK_SIZE 1024
 
+BOOL is_favicon_request(PCHAR request);
+
 PCHAR handle_req_recv(INT cx_socket, INT flags) {
 
   PCHAR chunk = NULL;
@@ -60,15 +62,21 @@ void multithread_server(struct addrinfo hints, struct addrinfo *serverInfo) {
 
     int new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
     printf("Accepted new connection: %p\n", &new_fd);
-    handle_req_recv(new_fd, 0);
+    PCHAR request = handle_req_recv(new_fd, 0);
 
-    pthread_t      worker;
-    pthread_attr_t workerAttrs;
+    if (is_favicon_request(request)) {
 
-    pthread_attr_init(&workerAttrs);
-    pthread_attr_setdetachstate(&workerAttrs, PTHREAD_CREATE_DETACHED);
-    pthread_attr_setschedpolicy(&workerAttrs, SCHED_FIFO);
-    pthread_create(&worker, &workerAttrs, (PVOID) handleRequestWithRandomResponse, &new_fd);
+      close(new_fd);
+    } else {
+
+      pthread_t      worker;
+      pthread_attr_t workerAttrs;
+
+      pthread_attr_init(&workerAttrs);
+      pthread_attr_setdetachstate(&workerAttrs, PTHREAD_CREATE_DETACHED);
+      pthread_attr_setschedpolicy(&workerAttrs, SCHED_FIFO);
+      pthread_create(&worker, &workerAttrs, (PVOID) handleRequestWithRandomResponse, &new_fd);
+    }
   }
 }
 
@@ -94,10 +102,22 @@ void threadpool_server(struct addrinfo hints, struct addrinfo *serverInfo) {
   while(TRUE) {
 
     int new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
-    printf("Accepted new connection: %d\n", new_fd);
-    handle_req_recv(new_fd, 0);
 
-    threadpool_add(pool, handleRequestWithRandomResponse, &new_fd, 0);
+    if (new_fd == -1) {
+      perror("Accept returned -1");
+      continue;
+    }
+
+    printf("Accepted new connection: %d\n", new_fd);
+    PCHAR request = handle_req_recv(new_fd, 0);
+
+    if (is_favicon_request(request)) {
+
+      close(new_fd);
+    } else {
+
+      threadpool_add(pool, handleRequestWithRandomResponse, &new_fd, 0);
+    }
   }
 }
 
@@ -174,8 +194,15 @@ void polling_server(struct addrinfo hints, struct addrinfo *serverInfo) {
           socklen_t sockaddClientLength;
 
           int socketNewCx = accept(socketListen, &sockaddClient, &sockaddClientLength);
-          handle_req_recv(socketNewCx, 0);
-          handleRequestWithRandomResponse((void *) &socketNewCx);
+          PCHAR request = handle_req_recv(socketNewCx, 0);
+
+          if (is_favicon_request(request)) {
+
+            close(socketNewCx);
+          } else {
+
+            handleRequestWithRandomResponse((void *) &socketNewCx);
+          }
         }
       } else {
         
@@ -184,6 +211,11 @@ void polling_server(struct addrinfo hints, struct addrinfo *serverInfo) {
     }
 
     printf("\n");
-
   }
+}
+
+BOOL is_favicon_request(PCHAR request) {
+
+  PCHAR favicon = "favicon";
+  return (strstr(request, favicon) != NULL);
 }

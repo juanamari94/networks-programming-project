@@ -18,7 +18,7 @@ VOID handleRequestWithRandomResponse(void *sfd) {
   char *buffer = malloc(MESSAGE_LENGTH);
   char *msg = rand_string(buffer, MESSAGE_LENGTH);
 
-  PCHAR http_response_header_placeholder = "HTTP/1.1 OK\r\nServer: SERVER\r\nContent-Type: text/html; charset=iso-8859-1\r\nContent-Length: %lu\r\n\r\n";
+  PCHAR http_response_header_placeholder = "HTTP/1.1 OK\r\nServer: SERVER\r\nConnection: Close\r\nContent-Type: text/html; charset=iso-8859-1\r\nContent-Length: %lu\r\n\r\n";
   PCHAR http_response_body_placeholder = "<html><body><h1>%s</h1></body></html>";
 
   ULONG message_length = strlen(msg);
