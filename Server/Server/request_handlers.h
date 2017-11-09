@@ -12,6 +12,7 @@
 #include "main.h"
 
 VOID handleRequestWithRandomResponse(void *sfd);
+VOID handle_request_with_image(void *sfd);
 
 #include <stdio.h>
 

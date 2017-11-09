@@ -11,6 +11,8 @@
 #include "main.h"
 
 #define MESSAGE_LENGTH 10
+#define CHUNK_SIZE 1024
+#define CAT_PIC_PATH "/Users/juanamari/Developer/XCode/NetworksProgramming/Server/Server/cat.jpg"
 
 VOID handleRequestWithRandomResponse(void *sfd) {
 
@@ -33,5 +35,45 @@ VOID handleRequestWithRandomResponse(void *sfd) {
 
   send(i_sfd, http_response_header, strlen(http_response_header), 0);
   send(i_sfd, http_response_body, strlen(http_response_body), 0);
+  close(i_sfd);
+}
+
+VOID handle_request_with_image(void *sfd) {
+
+  int i_sfd = *((int *)sfd);
+  FILE *file = fopen(CAT_PIC_PATH, "r");
+  size_t bytesRead = 0;
+
+  if (file == NULL) {
+    close(i_sfd);
+    return;
+  }
+
+  PCHAR http_response_header_placeholder = "HTTP/1.1 OK\r\nServer: SERVER\r\nConnection: Close\r\nContent-Type: image/jpeg\r\nContent-Length: %d\r\n\r\n";
+  PCHAR http_response_header;
+  PCHAR buffer = malloc(CHUNK_SIZE);
+
+  int res = fseek(file, 0, SEEK_END); // Set pointer at the end of the file.
+
+  if (res != 0) { // Check for errors when seeing.
+    close(i_sfd);
+    return;
+  }
+
+  long file_size = ftell(file); // Get the end of file pointer.
+  fseek(file, 0, SEEK_SET); // Set pointer back to the beggining.
+
+  http_response_header = malloc(strlen(http_response_header_placeholder) + 10);
+  sprintf(http_response_header, http_response_header_placeholder, file_size);
+  send(i_sfd, http_response_header, strlen(http_response_header), 0);
+
+  // read up to sizeof(buffer) bytes
+  while ((bytesRead = fread(buffer, 1, sizeof(buffer), file)) > 0)
+  {
+    // process bytesRead worth of data in buffer
+    send(i_sfd, buffer, sizeof(buffer), 0);
+  }
+
+  fclose(file);
   close(i_sfd);
 }

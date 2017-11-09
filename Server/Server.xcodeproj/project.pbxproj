@@ -30,6 +30,7 @@
 		95286A6A1F65FAD600A28F95 /* Server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Server; sourceTree = BUILT_PRODUCTS_DIR; };
 		95286A6D1F65FAD600A28F95 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		95286A891F67135A00A28F95 /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		9539705C1FB3DCBC007FF86A /* cat.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat.jpg; sourceTree = "<group>"; };
 		9549E5AE1F9D466E00A2DA60 /* request_handlers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = request_handlers.h; sourceTree = "<group>"; };
 		9549E5AF1F9D466E00A2DA60 /* request_handlers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = request_handlers.c; sourceTree = "<group>"; };
 		9549E5B11F9D473800A2DA60 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
@@ -70,6 +71,7 @@
 		95286A6C1F65FAD600A28F95 /* Server */ = {
 			isa = PBXGroup;
 			children = (
+				9539705C1FB3DCBC007FF86A /* cat.jpg */,
 				955465A01FAF614F00C3CDC8 /* threadpool.c */,
 				9554659F1FAF614E00C3CDC8 /* threadpool.h */,
 				95286A6D1F65FAD600A28F95 /* main.c */,

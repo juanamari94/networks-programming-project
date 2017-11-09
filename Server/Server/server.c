@@ -75,7 +75,7 @@ void multithread_server(struct addrinfo hints, struct addrinfo *serverInfo) {
       pthread_attr_init(&workerAttrs);
       pthread_attr_setdetachstate(&workerAttrs, PTHREAD_CREATE_DETACHED);
       pthread_attr_setschedpolicy(&workerAttrs, SCHED_FIFO);
-      pthread_create(&worker, &workerAttrs, (PVOID) handleRequestWithRandomResponse, &new_fd);
+      pthread_create(&worker, &workerAttrs, (PVOID) handle_request_with_image, &new_fd);
     }
   }
 }
@@ -116,7 +116,7 @@ void threadpool_server(struct addrinfo hints, struct addrinfo *serverInfo) {
       close(new_fd);
     } else {
 
-      threadpool_add(pool, handleRequestWithRandomResponse, &new_fd, 0);
+      threadpool_add(pool, handle_request_with_image, &new_fd, 0);
     }
   }
 }
@@ -201,7 +201,7 @@ void polling_server(struct addrinfo hints, struct addrinfo *serverInfo) {
             close(socketNewCx);
           } else {
 
-            handleRequestWithRandomResponse((void *) &socketNewCx);
+            handle_request_with_image((void *) &socketNewCx);
           }
         }
       } else {
