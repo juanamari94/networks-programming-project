@@ -55,7 +55,7 @@ VOID handle_request_with_image(void *sfd) {
 
   int res = fseek(file, 0, SEEK_END); // Set pointer at the end of the file.
 
-  if (res != 0) { // Check for errors when seeing.
+  if (res != 0) { // Check for errors when seeking.
     close(i_sfd);
     return;
   }

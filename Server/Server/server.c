@@ -61,7 +61,7 @@ void multithread_server(struct addrinfo hints, struct addrinfo *serverInfo) {
   while(TRUE) {
 
     int new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
-    printf("Accepted new connection: %p\n", &new_fd);
+    printf("Accepted new connection: %d\n", new_fd);
     PCHAR request = handle_req_recv(new_fd, 0);
 
     if (is_favicon_request(request)) {

@@ -53,6 +53,7 @@ VOID start_server(SERVER_HANDLER_FUNC server_handler, PAPP_ARGUMENTS arguments) 
 int main(int argc, char * argv[]) {
 
   PAPP_ARGUMENTS      arguments;                  // arguments
+  signal(SIGPIPE, SIG_IGN);
 
   // arguments
   if (argc < 2) {
